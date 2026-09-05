@@ -39,3 +39,7 @@ Found a bug? Feel free to submit an issue or pull request.
 ## License
 
 GNU Public License V2.0
+
+## Screenshot
+
+<img width="1355" height="912" alt="social-login" src="https://github.com/user-attachments/assets/dd543680-05a6-42c3-b423-cd0295b74931" />
