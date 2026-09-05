@@ -36,6 +36,6 @@ This plugin bundles the following open-source libraries to securely handle the O
 
 Found a bug? Feel free to submit an issue or pull request.
 
-## 📄 License
+## License
 
 GNU Public License V2.0
