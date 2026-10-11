@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Login - Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+
+        main {
+            background-color: #fff;
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            position: relative;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5em;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f7fa;
+            font-weight: 600;
+        }
+
+        .meta-header {
+            display: flex;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 1.5em 0;
+        }
+
+        .meta-left {
+            flex: 0 0 35%;
+            padding: 15px;
+            border-right: 1px solid #ddd;
+        }
+
+        .meta-right {
+            flex: 1;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Tabs CSS */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: #f5f7fa;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            padding: 10px 20px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .tab-btn:hover {
+            background-color: #e2e6ea;
+        }
+
+        .tab-btn.active {
+            background-color: #3498db;
+            color: #fff;
+            border-color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .doc-thumb {
+            display: block;
+            max-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 15px 0;
+            cursor: zoom-in;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .doc-thumb:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<main id="top">
+    <h1>Social Login</h1>
+
+    <div class="meta-header">
+        <div class="meta-left">
+            <strong>Version:</strong> 1.0.0<br>
+            <strong>Platform:</strong> Zen Cart 2.x<br>
+            <strong>Architecture:</strong> Encapsulated Plugin<br>
+            <strong>Author:</strong> Leonard, ZenExpert<br>
+            <strong>Contact:</strong> <a href="mailto:info@zenexpert.com">e-mail me</a> (considered as quote requests)
+        </div>
+        <div class="meta-right">
+            Thank you for downloading this plugin. Please note that this plugin is installed and used at your own risk. If you are unsure of how to complete the installation procedure documented below, please seek support in the official Forum section (keep in mind Forums are public and work on voluntary basis) or contact me for paid assistance. ZenExpert takes no responsibility for problems related to the installation or use of this plugin.
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tab-general')">General</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-google')">Google Setup</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-facebook')">Facebook Setup</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-apple')">Apple Setup</button>
+    </div>
+
+    <div id="tab-general" class="tab-content active">
+        <h2>Overview</h2>
+        <p>The Social Login plugin provides a seamless, multi-provider OAuth 2.0 authentication system for Zen Cart. Built on the industry-standard PHP League OAuth client, this encapsulated extension allows customers to register and log in using their existing Google, Facebook, or Apple identities without leaving your storefront.</p>
+
+        <h2>Core Architecture & Features</h2>
+        <ul>
+            <li><strong>Unified Callback Routing:</strong> Employs a single dynamic endpoint for all OAuth providers, drastically simplifying integration and allowing for rapid expansion to future providers.</li>
+            <li><strong>WAF & ModSecurity Bypass:</strong> Utilizes <code>form_post</code> response modes combined with local session recovery bounces to prevent firewall 406 errors (Remote File Inclusion false-positives) without requiring server-level rule whitelisting.</li>
+            <li><strong>Cart & Session Preservation:</strong> Actively intercepts cross-origin cookie drops triggered by modern <code>SameSite=Lax</code> browser policies. Carts built prior to logging in are safely retained and merged into the authenticated session.</li>
+            <li><strong>Automated Account Provisioning:</strong> Safely parses missing provider data (e.g., Apple's proxy emails or Facebook's phone-only accounts) and seamlessly links external social identities to existing Zen Cart customer database records.</li>
+        </ul>
+
+        <h2>Installation</h2>
+        <p>This plugin is built as a strict <strong>Encapsulated Plugin</strong> for Zen Cart 2.x. It utilizes reference-based observers and a self-contained directory structure, guaranteeing absolutely zero core file modifications.</p>
+        <ol>
+            <li>Backup your database.</li>
+            <li>Upload the <code>SocialLogin</code> folder to your store's <code>zc_plugins</code> directory.</li>
+            <li>Navigate to your Zen Cart Admin and go to <strong>Plugins &gt; Plugin Manager</strong>.</li>
+            <li>Locate Social Login and click <strong>Install</strong>. The necessary database tables and configuration keys will automatically generate.</li>
+            <li>Configure your desired social providers in the Admin configuration menu using the tabs above for provider-specific instructions.</li>
+        </ol>
+
+        <h2>Support <a href="#top" class="back-to-top">&uarr; top</a></h2>
+        <p>This plugin comes with limited support. There is an official support thread on the public Forum, but keep in mind that support is on voluntary basis so you might have to wait a while before your question gets answered.</p>
+        <p>Please note that I don't provide support for this module via email for free. Any private support is considered commercial work and will be billed at my standard hourly rate.</p>
+
+        <h2>Sources and Credits <a href="#top" class="back-to-top">&uarr; top</a></h2>
+        <p>This plugin bundles the following open-source libraries to securely handle the OAuth 2.0 specifications:</p>
+        <ul>
+            <li><a href="https://github.com/thephpleague/oauth2-client" target="_blank">PHP League OAuth 2.0 Client</a> (Base Library)</li>
+            <li><a href="https://github.com/thephpleague/oauth2-google" target="_blank">PHP League Google Provider</a></li>
+            <li><a href="https://github.com/thephpleague/oauth2-facebook" target="_blank">PHP League Facebook Provider</a></li>
+            <li><a href="https://github.com/patrickbussmann/oauth2-apple" target="_blank">Patrick Bussmann's Apple Provider</a> (PHP League Compatible)</li>
+        </ul>
+        <p>If you find this module useful, <a href="https://zenexpert.com/shop/donations/donation" target="_blank"><strong>please consider donating via PayPal</strong></a> to ensure this module is supported and improved ($10 - $30 recommended).</p>
+
+        <h2>License <a href="#top" class="back-to-top">&uarr; top</a></h2>
+        <p>The plugin is licensed under GPL.</p>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 2rem 0;">
+        <p>Once again, thank you for downloading this file. As I said at the beginning, I'd be glad to help you if you have any questions relating to this plugin. No guarantees, but I'll do my best to assist.</p>
+        <p>Regards,<br>Leonard</p>
+    </div>
+
+    <div id="tab-google" class="tab-content">
+        <h2>Google Configuration</h2>
+
+        <ol>
+            <li>Log in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>.</li>
+            <li>Click <strong>Select project</strong> in the top left corner. If you already have a project, click on that button. A popup window will show; click <strong>New project</strong>.
+                <img src="images/google-step1.jpg" alt="Create new project" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Give your project a name (e.g., <em>Zen Cart Login</em>) and create it. Once it's created, ensure it is selected as the active project.</li>
+            <li>Navigate to <strong>API & Services</strong>.
+                <img src="images/google-step2.jpg" alt="Navigate to API and Services" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Click <strong>OAuth consent screen</strong> in the side menu and select <strong>Get Started</strong>.</li>
+            <li>Give your app a name (you can use <em>Zen Cart Login</em> again), set audience to <strong>External</strong>, set your contact info, agree to the policy, click <strong>Continue</strong>, and finally <strong>Create</strong>.</li>
+            <li>Go to <strong>Branding</strong> in the side menu. In App Domain, add links as requested. Add an authorized domain (the domain where you'll be using this app) and save changes.
+                <img src="images/google-step3.jpg" alt="App Branding and Domain" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Go to <strong>Data access</strong> in the side menu and click <strong>Add or remove scopes</strong>. Add the three non-sensitive default scopes required for identity verification:
+                <ul>
+                    <li><code>.../auth/userinfo.email</code> (Access the user's email address)</li>
+                    <li><code>.../auth/userinfo.profile</code> (Access basic profile information like name)</li>
+                    <li><code>openid</code> (OpenID Connect scope for identity verification)</li>
+                </ul>
+                Click <strong>Update</strong>, then <strong>Save</strong>.
+                <img src="images/google-step4.jpg" alt="Add Scopes" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Go to <strong>Audience</strong> in the side menu and click <strong>Publish App</strong>.</li>
+            <li>Go to <strong>Clients</strong> in the side menu and click <strong>Create client</strong>.
+                <img src="images/google-step5.jpg" alt="Create Client" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Set Application type to <strong>Web application</strong> and give it a name (e.g., <em>Zen Cart Login</em>).</li>
+            <li>Under <strong>Authorised redirect URIs</strong>, click <strong>Add URI</strong> and set it to:
+                <br><code>https://YOUR_DOMAIN.com/PATH_TO_YOUR_SHOP/index.php?main_page=social_oauth_callback&provider=google</code><br>
+                Click <strong>Create</strong>.
+                <img src="images/google-step6.jpg" alt="Authorized redirect URIs" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Copy your <strong>Client ID</strong> and <strong>Client Secret</strong> into your Zen Cart admin Social Login configuration page.
+                <img src="images/google-step7.jpg" alt="Copy Client ID and Secret" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Your site is now ready to use Google Login.</li>
+        </ol>
+    </div>
+
+    <div id="tab-facebook" class="tab-content">
+        <h2>Facebook Configuration</h2>
+
+        <blockquote>
+            <strong>Note:</strong> Before you proceed, please keep in mind Facebook Login is only available for Verified Businesses. If you have a business, you'll be required to verify it before you can use the feature.
+        </blockquote>
+
+        <ol>
+            <li>Go to <a href="https://developers.facebook.com/" target="_blank">Meta for Developers</a>. If you don't have an account, you'll have to create one.</li>
+            <li>Navigate to <strong>My Apps</strong> and click <strong>Create App</strong>.</li>
+            <li>Name your app (keep in mind it's visible to users, so you might want to name it <em>YOUR_SITE Social Login</em>).</li>
+            <li>Select <strong>Authenticate and request data from users with Facebook Login</strong>, select the business portfolio to use with this app, and complete the steps in the wizard.
+                <img src="images/fb-step1.jpg" alt="Authenticate and request data" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>In your Dashboard, go through each step that doesn't have a green checkmark.</li>
+            <li>Under <strong>Customize the Authenticate and request data from users with Facebook Login use case</strong>, you will need to add email under permissions. You only want <code>email</code> and <code>public_profile</code>, nothing else.
+                <img src="images/fb-step2.jpg" alt="Facebook Permissions" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Go to <strong>Settings</strong> and set <strong>Valid OAuth Redirect URIs</strong> to:
+                <br><code>https://YOUR_DOMAIN.com/PATH_TO_YOUR_SHOP/index.php?main_page=social_oauth_callback&provider=facebook</code><br>
+                Click <strong>Save</strong>.
+                <img src="images/fb-step3.jpg" alt="Valid OAuth Redirect URIs" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Go to <strong>App Settings &gt; Basic</strong> and fill out all details. A link to your site's Privacy Policy, Terms of Service, and Data Deletion pages is required. You will also need to upload a 1024x1024px (or larger) image that will be used as the App icon. Ensure you prepare an image with a transparent background.
+                <img src="images/fb-step4.jpg" alt="App Settings Basic" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Scroll down, click the <strong>Add platform</strong> button, and select <strong>Website</strong>.</li>
+            <li>Provide the URL to your website and click <strong>Add or update instructions</strong>. Fill out all required information (for "Is Facebook Login integrated on this platform?", select <strong>No</strong>).</li>
+            <li>Save your changes and publish the app.
+                <img src="images/fb-step5.jpg" alt="Publish Facebook App" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>If there are still any errors or warnings, fix them before publishing. Apps go through verification, so wait until your app is approved before enabling it on your website.</li>
+            <li>Once approved, go to <strong>App settings &gt; Basic</strong>, click the <strong>Show</strong> button to reveal your App secret, and copy your <strong>App ID</strong> and <strong>App Secret</strong> into your Zen Cart admin Social Login configuration page, then enable Facebook login.
+                <img src="images/fb-step6.jpg" alt="Facebook App ID and Secret" class="doc-thumb" onclick="openLightbox(this.src)">
+            </li>
+            <li>Your site is now ready to use Facebook Login.</li>
+        </ol>
+    </div>
+
+    <div id="tab-apple" class="tab-content">
+        <h2>Apple Configuration</h2>
+        <p>Configuring Apple requires cryptographic keys and strict domain verification. You must have an active, paid Apple Developer account to generate these credentials.</p>
+
+        <h3>Step 1: Create an App ID</h3>
+        <ol>
+            <li>Log into the <a href="https://developer.apple.com/account/" target="_blank">Apple Developer Portal</a> and navigate to <strong>Certificates, Identifiers & Profiles</strong>.</li>
+            <li>Go to <strong>Identifiers</strong>, click the <strong>+</strong> icon, and select <strong>App IDs</strong>.</li>
+            <li>Register a primary App ID (e.g., <code>com.yourstore.app</code>).</li>
+        </ol>
+
+        <h3>Step 2: Create and Configure a Service ID</h3>
+        <ol>
+            <li>Return to <strong>Identifiers</strong>, click the <strong>+</strong> icon, and select <strong>Services IDs</strong>.</li>
+            <li>Define an identifier (e.g., <code>com.yourstore.app.login</code>). This specific string serves as your <strong>Apple Service ID (Client ID)</strong> for the Zen Cart admin panel.</li>
+            <li>Click into the newly created Service ID, check the box for <strong>Sign In with Apple</strong>, and click <strong>Configure</strong>.</li>
+            <li>Assign your primary App ID from Step 1 as the Primary App ID.</li>
+            <li>Under <strong>Web Domain</strong>, enter your store's root domain (e.g., <code>yourstore.com</code>).</li>
+            <li>Under <strong>Return URLs</strong>, paste your exact OAuth callback URL (e.g., <code>https://yourstore.com/index.php?main_page=social_oauth_callback&provider=apple</code>).</li>
+            <li>Save the configuration.</li>
+        </ol>
+
+        <h3>Step 3: Generate the Auth Key</h3>
+        <ol>
+            <li>Navigate to the <strong>Keys</strong> menu in the left sidebar and click the <strong>+</strong> icon.</li>
+            <li>Name the key (e.g., "Store Social Login") and check the box for <strong>Sign In with Apple</strong>.</li>
+            <li>Click <strong>Configure</strong> and link it to your primary App ID.</li>
+            <li>Click <strong>Register</strong> and then <strong>Download</strong> to save the <code>.p8</code> file to your computer. <em>Note: Apple strictly limits this download to a single occurrence.</em></li>
+            <li>Copy the 10-character <strong>Key ID</strong> displayed on this confirmation page.</li>
+        </ol>
+
+        <h3>Step 4: Retrieve Your Team ID</h3>
+        <ol>
+            <li>Locate your 10-character <strong>Team ID</strong>, which is permanently displayed in the top-right corner of the Apple Developer portal beneath your developer account name.</li>
+        </ol>
+
+        <h3>Step 5: Securely Host the .p8 File</h3>
+        <ol>
+            <li>Upload the downloaded <code>.p8</code> file to your web server via FTP/SFTP.</li>
+            <li><strong>Security Requirement:</strong> Place this file <em>outside</em> of your <code>public_html</code> (or web root) directory so it cannot be directly requested or downloaded via a web browser.</li>
+            <li>Note the absolute server path to this file (e.g., <code>/home/username/apple_keys/AuthKey_XXXXXXXXXX.p8</code>).</li>
+        </ol>
+
+        <h3>Step 6: Zen Cart Admin Configuration</h3>
+        <ol>
+            <li>Log into your Zen Cart admin panel and navigate to the Social Login configuration menu.</li>
+            <li>Set <strong>Enable Apple Login</strong> to <code>true</code>.</li>
+            <li>Enter the <strong>Apple Service ID</strong> (from Step 2).</li>
+            <li>Enter the <strong>Apple Team ID</strong> (from Step 4).</li>
+            <li>Enter the <strong>Apple Key ID</strong> (from Step 3).</li>
+            <li>Enter the <strong>Apple Key File Path</strong> (the absolute server path from Step 5).</li>
+        </ol>
+    </div>
+
+</main>
+
+<div id="imageLightbox" class="lightbox-modal" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightboxImage">
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function openLightbox(src) {
+        var modal = document.getElementById("imageLightbox");
+        var modalImg = document.getElementById("lightboxImage");
+        modalImg.src = src;
+        modal.classList.add("show");
+    }
+
+    function closeLightbox() {
+        var modal = document.getElementById("imageLightbox");
+        modal.classList.remove("show");
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeLightbox();
+        }
+    });
+</script>
+
+</body>
+</html>

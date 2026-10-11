@@ -1,0 +1,26 @@
+{
+  "require": {
+    "league/oauth2-client": "^2.0",
+    "league/oauth2-google": "^3.0",
+    "league/oauth2-facebook": "^2.0",
+    "patrickbussmann/oauth2-apple": "^0.4.0"
+  },
+  "require-dev": {
+    "brianhenryie/strauss": "*"
+  },
+  "extra": {
+    "strauss": {
+      "target_directory": "vendor-prefixed",
+      "namespace_prefix": "ZenExpert\\SocialLogin\\",
+      "classmap_prefix": "ZenExpert_SocialLogin_"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@php vendor/bin/strauss"
+    ],
+    "post-update-cmd": [
+      "@php vendor/bin/strauss"
+    ]
+  }
+}

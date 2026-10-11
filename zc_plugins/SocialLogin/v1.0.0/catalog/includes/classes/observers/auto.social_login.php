@@ -44,14 +44,14 @@ class zcObserverSocialLogin extends base
         if ($eventID === 'NOTIFY_HTML_HEAD_END') {
             if ((defined('SOCIAL_LOGIN_GOOGLE_STATUS') && SOCIAL_LOGIN_GOOGLE_STATUS === 'true') || (defined('SOCIAL_LOGIN_FACEBOOK_STATUS') && SOCIAL_LOGIN_FACEBOOK_STATUS === 'true') || (defined('SOCIAL_LOGIN_APPLE_STATUS') && SOCIAL_LOGIN_APPLE_STATUS === 'true')) {
                 // Restrict injection strictly to the login page
-                if ($currentPageBase === FILENAME_LOGIN) {
+                if ($currentPageBase === FILENAME_LOGIN || $currentPageBase === FILENAME_CREATE_ACCOUNT) {
                     $this->linkCatalogStylesheet('social_login.css', $currentPageBase);
                 }
             }
             return;
         }
 
-        if ($eventID === 'NOTIFY_FOOTER_END' && $currentPageBase === FILENAME_LOGIN) {
+        if ($eventID === 'NOTIFY_FOOTER_END' && ($currentPageBase === FILENAME_LOGIN || $currentPageBase === FILENAME_CREATE_ACCOUNT)) {
             global $template;
 
             if ((defined('SOCIAL_LOGIN_GOOGLE_STATUS') && SOCIAL_LOGIN_GOOGLE_STATUS === 'true') ||
@@ -77,7 +77,7 @@ class zcObserverSocialLogin extends base
                             firstHeading.insertAdjacentHTML("afterend", ' . $jsHtml . ');
                         } else {
                             // Failsafe fallback just in case a highly custom template has no headings
-                            var loginForm = document.querySelector("form[name=\'login\'], form[name=\'loginForm\']");
+                            var loginForm = document.querySelector("form[name=\'login\'], form[name=\'loginForm\'], form[name=\'createAccountForm\']");
                             if (loginForm) {
                                 loginForm.insertAdjacentHTML("beforebegin", ' . $jsHtml . ');
                             }

@@ -2,7 +2,8 @@
 declare(strict_types=1);
 
 // Load the bundled Composer autoloader
-require_once dirname(__DIR__, 3) . '/classes/vendor/autoload.php';
+require_once dirname(__DIR__, 3) . '/classes/vendor-prefixed/autoload.php';
+require DIR_WS_MODULES . zen_get_module_directory('require_languages.php');
 
 global $db, $messageStack;
 
@@ -18,7 +19,7 @@ $dbColumn = '';
 switch ($providerName) {
     case 'google':
         if (defined('SOCIAL_LOGIN_GOOGLE_STATUS') && SOCIAL_LOGIN_GOOGLE_STATUS === 'true') {
-            $oauthProvider = new \League\OAuth2\Client\Provider\Google([
+            $oauthProvider = new \ZenExpert\SocialLogin\League\OAuth2\Client\Provider\Google([
                 'clientId'     => SOCIAL_LOGIN_GOOGLE_CLIENT_ID,
                 'clientSecret' => SOCIAL_LOGIN_GOOGLE_CLIENT_SECRET,
                 'redirectUri'  => $redirectUri,
@@ -29,7 +30,7 @@ switch ($providerName) {
 
     case 'facebook':
         if (defined('SOCIAL_LOGIN_FACEBOOK_STATUS') && SOCIAL_LOGIN_FACEBOOK_STATUS === 'true') {
-            $oauthProvider = new \League\OAuth2\Client\Provider\Facebook([
+            $oauthProvider = new \ZenExpert\SocialLogin\League\OAuth2\Client\Provider\Facebook([
                 'clientId'          => SOCIAL_LOGIN_FACEBOOK_CLIENT_ID,
                 'clientSecret'      => SOCIAL_LOGIN_FACEBOOK_CLIENT_SECRET,
                 'redirectUri'       => $redirectUri,
@@ -41,7 +42,7 @@ switch ($providerName) {
 
     case 'apple':
         if (defined('SOCIAL_LOGIN_APPLE_STATUS') && SOCIAL_LOGIN_APPLE_STATUS === 'true') {
-            $oauthProvider = new \League\OAuth2\Client\Provider\Apple([
+            $oauthProvider = new \ZenExpert\SocialLogin\League\OAuth2\Client\Provider\Apple([
                 'clientId'          => SOCIAL_LOGIN_APPLE_CLIENT_ID,
                 'teamId'            => SOCIAL_LOGIN_APPLE_TEAM_ID,
                 'keyFileId'         => SOCIAL_LOGIN_APPLE_KEY_ID,

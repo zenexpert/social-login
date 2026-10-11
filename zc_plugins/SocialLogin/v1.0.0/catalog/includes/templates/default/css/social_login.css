@@ -1,6 +1,6 @@
 .social-login-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     margin: 1.5em auto;
     max-width: 320px;
